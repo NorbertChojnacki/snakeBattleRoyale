@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Snake: Battle Royale</title>
+    <link rel="stylesheet" href="assets/css/master.css">
+    <link rel="icon" href="/assets/img/logo.png">
+   </head>
+  <body>
+    <div id="mainBox">
+      <h1>Snake</h1><h3>Battle Royale</h3>
+      <br>
+      <form action="/game/create" method="post">
+
+        <h3>Create your snake</h3>
+          <label>Name your snake:</label>
+            <input type="text" name="snakeName" value="" required><br>
+          <label>Colour your snake:</label>
+            <input type="color" name="snakeColor" value=""><br>
+        <br>
+        <h3>Create your game</h3>
+          <label for="playerNumber">Amount of players (min: 1, max: 10)</label>
+            <input type="number" name="playerNumber" value="1" min="1" max="10" required><br> <!-- number of players -->
+          <label for="applesNumber">Amount of apples (min: 1, max: 15)</label>
+            <input type="number" name="applesNumber" value="4" min="1" max="15" required><br> <!-- number of apples-->
+          <label for="boardSize">Board size (min:200, max: 2000)</label>        
+            <input type="number" name="boardSize" value="400" min="200" max="2000" required><br> <!-- board size-->
+        <input type="submit" name="createGameSubmit" value="Submit">
+      </form>
+      <br>
+      <form action="/game/join" method="post">
+        <h3>Join Game</h3>
+          <label for="joinGameCode">Enter code game to join</label>
+            <input type="text" name="joinGameCode" minlength="6" maxlength="6">
+        <input type="submit" name="joinGameSubmit" value="Submit">
+      </form>
+    </div>
+  </body>
+</html>
