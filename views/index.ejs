@@ -10,14 +10,16 @@
     <div id="mainBox">
       <h1>Snake</h1><h3>Battle Royale</h3>
       <br>
-      <form action="/game/create" method="post">
-
+      <form id="snake">
         <h3>Create your snake</h3>
           <label>Name your snake:</label>
             <input type="text" name="snakeName" value="" required><br>
           <label>Colour your snake:</label>
-            <input type="color" name="snakeColor" value=""><br>
+            <input type="color" name="snakeColor" value="<%=randomColor%>"><br>
         <br>
+      </form>
+
+      <form action="/game/create" method="post" id="create">
         <h3>Create your game</h3>
           <label for="playerNumber">Amount of players (min: 1, max: 10)</label>
             <input type="number" name="playerNumber" value="1" min="1" max="10" required><br> <!-- number of players -->
@@ -28,12 +30,33 @@
         <input type="submit" name="createGameSubmit" value="Submit">
       </form>
       <br>
-      <form action="/game/join" method="post">
+
+      <form action="/game/join" method="post" id="join">
         <h3>Join Game</h3>
           <label for="joinGameCode">Enter code game to join</label>
             <input type="text" name="joinGameCode" minlength="6" maxlength="6">
         <input type="submit" name="joinGameSubmit" value="Submit">
       </form>
     </div>
+    <script>
+
+      document.querySelectorAll('form:not(#snake)').forEach(form=>{
+        form.addEventListener('submit', e=>{
+          e.preventDefault()
+          if(snake[0].value === ""){
+            snake.setCustomValidity()
+            snake.reportValidity() 
+          }else{
+            let name = snake[0].cloneNode(false)
+            let color = snake[1].cloneNode(false)
+            name.setAttribute('style', 'display:none')
+            color.setAttribute('style', 'display:none')
+            form.appendChild(name)
+            form.appendChild(color)
+            form.submit()
+          }
+        })
+      })
+    </script>
   </body>
 </html>
