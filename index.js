@@ -8,11 +8,13 @@ const guid = require(path.join(__dirname , '/controllers/modules/GUIDgen.js'))
 const http = require('http');
 const fs = require('fs')
 const socket = require('socket.io');
+const session = require('express-session')
 
 app = express()
 app.use(express.urlencoded({extended: true}))
 app.use('/assets', express.static(__dirname + '/assets'))
 app.set('view engine', 'ejs')
+app.use(session({secret: 'secret', resave: false, saveUninitialized: false, unset:'destroy', cookie:{maxAge:1000}}))
 
 function gameCheckRequest(req, res, next){
    if (!['create', 'join'].includes(req.params.game)) res.status(400).end()
@@ -39,18 +41,37 @@ function gameCheckCode(req, res, next){
 }
 
 /* get requset handler */
-app.get('/', (req, res) => {  
+app.get('/', (req, res) => {
+   console.log('/')
+   console.table(req.session)
+   req.session.player = {};
    res.render('index', {randomColor: `#${guid()}`});
 });
 /* ------------------------------- */
 
 app.get('/snake',gameCheckCode, (req,res)=>{
-   res.render('game')
+   console.log('/snake')
+   console.table(req.session)
+   let player = req.session.player
+   req.session = {}
+   console.log('/snake1')
+   console.table(req.session)
+   res.render('game', {player})
 })
 
-
+// encodeURIComponent
 /* post request handler*/
 app.post('/game/:game', gameCheckRequest, gameCreate ,(req,res)=>{
+   console.log('/game')
+   console.table(req.session)
+   req.session.destroy(err=> console.error(err))
+   req.session.regenerate(err=> console.error(err))
+   req.session.player = {
+      id: guid('xxxxx'),
+      name: req.body.snakeName,
+      color: req.body.snakeColor
+   }
+   // res.status(200).end()
    res.redirect(301,`/snake?&gameCode=${res.locals.gameCode}`)
 });
 /* ------------------------------- */

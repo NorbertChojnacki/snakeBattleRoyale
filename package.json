@@ -13,12 +13,17 @@
     "body-parser": "^1.18.3",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
-    "socket.io": "^2.2.0"
+    "express-session": "^1.17.2",
+    "socket.io": "^4.4.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
   },
   "nodemonConfig": {
-    "ignore": ["/rooms/*", "/assets/*", "/views/*"]
+    "ignore": [
+      "/rooms/*",
+      "/assets/*",
+      "/views/*"
+    ]
   }
 }
